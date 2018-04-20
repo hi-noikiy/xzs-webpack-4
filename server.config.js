@@ -1,4 +1,5 @@
-let devServer = {
+const path = require('path');
+module.exports = {
 	proxy: { // proxy URLs to backend development server
 		'/api': 'http://localhost:3000'
 	},
@@ -8,5 +9,4 @@ let devServer = {
 	hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
 	https: false, // true for self-signed, object for cert authority
 	noInfo: true, // only errors & warns on hot reload
-};
-export default devServer
+}
