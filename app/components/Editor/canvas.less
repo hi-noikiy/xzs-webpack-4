@@ -1,0 +1,55 @@
+@bg: #293036;
+.editor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	.editor-header {
+		height: 48px;
+		background-color: @bg;
+	}
+	.editor-body {
+		display: flex;
+		flex: 1;
+		aside {
+			width: 200px;
+		}
+		.editor-container {
+			position: relative;
+			flex: 1
+		}
+	}
+
+}
+
+.editor-left-side {
+	background-color: rgb(23, 200, 200);
+	.drag-box {
+		margin: 20px auto 0;
+		height: 160px;
+		width: 160px;
+		border-radius: 4px;
+		background-color: #f00;
+		cursor: pointer;
+	}
+}
+
+.mj-canvas-document {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: scroll;
+}
+.editor-toolbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	background-color: #fff;
+}
