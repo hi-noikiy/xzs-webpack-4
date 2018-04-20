@@ -1,24 +1,26 @@
 const path = require('path');
 let devServerConfig = require('./server.config'),
-	webpack = require('webpack'),
+	chalk = require('chalk');
+webpack = require('webpack'),
+	CleanWebpackPlugin = require('clean-webpack-plugin'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	DashboardPlugin = require('webpack-dashboard/plugin');
 let distPath = path.resolve(__dirname, 'dist'),
 	srcPath = path.resolve(__dirname, 'app');
 module.exports = {
-	mode: 'development',
-	// devtool: 'cheap-source-map',
+	mode: 'production',    //production or  development or
+	devtool: 'cheap-source-map',
 	entry: {
 		a: [path.resolve(srcPath, 'a')]
 	},
 	output: {
 		auxiliaryComment: 'Test Comment',       //
 		path: distPath,
-		filename: 'js/[id].common.js',
-		chunkFilename: 'js/[id].chunk.js',
+		filename: 'js/[name].common.js',
+		chunkFilename: 'js/[name].chunk.js',
 		publicPath: '', // string
 		library: 'MyLibrary', // string,s
-		libraryTarget: 'umd', // universal module definition
+		// libraryTarget: 'umd', // universal module definition
 	},
 	resolve: {
 		alias: {
@@ -67,12 +69,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	compress: {
-		// 		warnings: false,
-		// 		drop_console: false,
-		// 	}
-		// }),
+		new CleanWebpackPlugin([distPath]),
 		// new ExtractTextPlugin({
 		// 	filename: 'build.min.css',
 		// 	allChunks: true,
@@ -81,18 +78,18 @@ module.exports = {
 		new webpack.DefinePlugin({
 			// 'process.env.NODE_ENV': '"production"',
 		}),
-		new webpack.optimize.SplitChunksPlugin({
-			cacheGroups: {
-				commons: {
-					test: /[\\/]node_modules[\\/]/,
-					name: 'vendors',
-					chunks: 'all'
-				}
-			}
-		})
+		// new webpack.optimize.SplitChunksPlugin({
+		// cacheGroups: {
+		// 	vendors: {
+		// 		test: /[\\/]node_modules[\\/]/,
+		// 		name: 'vendors',
+		// 		chunks: 'all'
+		// 	}
+		// }
+		// })
 		// webpack-dev-server enhancement plugins
 		// new DashboardPlugin(),
 		// new webpack.HotModuleReplacementPlugin(),
-	]
+	],
+	
 }
-
