@@ -1,16 +1,60 @@
-const path = require('path');
-let devServerConfig = require('./server.config'),
+const path = require('path'),
 	chalk = require('chalk');
 webpack = require('webpack'),
 	CleanWebpackPlugin = require('clean-webpack-plugin'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
-	ExtractTextPlugin = require('extract-text-webpack-plugin'),
-	DashboardPlugin = require('webpack-dashboard/plugin');
+	DashboardPlugin = require('webpack-dashboard/plugin'),
+	ExtractTextPlugin = require('extract-text-webpack-plugin');
 let distPath = path.resolve(__dirname, 'dist'),
 	srcPath = path.resolve(__dirname, 'app');
+if (!process.env.NODE_ENV) {
+	process.env.NODE_ENV = 'development';
+}
+let env = process.env.NODE_ENV;
+let mode = 'none',
+	devtool = 'none',
+	devServer = void 0,
+	plugins = [
+		new ExtractTextPlugin({
+			filename: 'css/[name].css',
+			allChunks: true
+		}),
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+		new webpack.DefinePlugin({
+			// 'process.env.NODE_ENV': '"production"',
+		}),
+		new webpack.NoEmitOnErrorsPlugin(),
+		new HtmlWebpackPlugin({
+			inject: true,
+			title: 'Custom template using Handlebars',
+			template: path.resolve(srcPath, 'index.html'),
+			chunks: ['app', 'commons']
+		}),
+		// new webpack.optimize.SplitChunksPlugin({
+		// cacheGroups: {
+		// 	vendors: {
+		// 		test: /[\\/]node_modules[\\/]/,
+		// 		name: 'vendors',
+		// 		chunks: 'all'
+		// 	}
+		// }
+		// })
+	]
+if (env === 'development') {
+	devtool = 'cheap-source-map';
+	devServer = require('./server.config');
+	// plugins.push(new DashboardPlugin());
+	plugins.push(new webpack.HotModuleReplacementPlugin());
+	console.log(chalk.red(`当前开发环境===========${env}`))
+} else {
+	mode = 'production';
+	mode = 'development';
+	plugins.unshift(new CleanWebpackPlugin([distPath]));
+	
+}
 module.exports = {
-	mode: 'development',    //production or  development or
-	devtool: 'cheap-source-map',
+	mode,
+	devtool,
 	entry: {
 		app: [path.resolve(srcPath, 'index')]
 	},
@@ -40,8 +84,8 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: ExtractTextPlugin.extract({
-					fallback: "style-loader",
-					use: "css-loader"
+					fallback: 'style-loader',
+					use: 'css-loader'
 				})
 			},
 			{
@@ -72,53 +116,6 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [
-		// new CleanWebpackPlugin([distPath]),
-		new ExtractTextPlugin({
-			filename: 'css/[name].css',
-			allChunks: true
-		}),
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-		new webpack.DefinePlugin({
-			// 'process.env.NODE_ENV': '"production"',
-		}),
-		new webpack.NoEmitOnErrorsPlugin(),
-		new HtmlWebpackPlugin({
-			inject: true,
-			title: 'Custom template using Handlebars',
-			template: path.resolve(srcPath, 'index.html'),
-			chunks: ['app', 'commons']
-		}),
-		new webpack.HotModuleReplacementPlugin()
-		// new webpack.optimize.SplitChunksPlugin({
-		// cacheGroups: {
-		// 	vendors: {
-		// 		test: /[\\/]node_modules[\\/]/,
-		// 		name: 'vendors',
-		// 		chunks: 'all'
-		// 	}
-		// }
-		// })
-		// webpack-dev-server enhancement plugins
-		// new DashboardPlugin(),
-		// new webpack.HotModuleReplacementPlugin(),
-	],
-	devServer: {
-		port: 8888,
-		hot: true,               //热替换
-		proxy: {
-			'/api': {
-				target: "http://localhost:3000",
-				pathRewrite: {"^/api" : ""}
-			}
-		},
-		stats: {
-			colors: true,
-			modules: false,
-			chunks: false,
-			chunkModules: false,
-			children: false
-		},
-		overlay: true
-	}
+	plugins,
+	devServer
 }

@@ -34,6 +34,8 @@ class App extends PureComponent {
 		)
 	}
 }
+// sdasd112--asdas1
+console.log(process.env.NODE_ENV);
 
 
 window.React = React;
