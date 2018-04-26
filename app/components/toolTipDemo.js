@@ -21,7 +21,7 @@ export default class ToolTipDemo extends PureComponent {
 					})
 				}
 				<button onClick={(e)=>{
-					console.log(121);
+					console.log(222222);
 					e.preventDefault();
 					e.stopPropagation();
 					this.forceUpdate();
@@ -30,6 +30,7 @@ export default class ToolTipDemo extends PureComponent {
 		)
 	}
 }
+
 
 
 class BB extends PureComponent {

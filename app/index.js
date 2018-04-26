@@ -10,14 +10,14 @@ import {Provider} from 'react-redux';
 import store from '@/redux/store';
 import '@/http';
 
-const history = createHashHistory();
+const history = createMemoryHistory();
 
 class App extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
-
+	
 	render() {
 		return (
 			<Provider store={store}>
@@ -34,10 +34,9 @@ class App extends PureComponent {
 		)
 	}
 }
+
 // sdasd112--asdas1
 console.log(process.env.NODE_ENV);
-
-
 window.React = React;
 window.ReactDom = ReactDom;
 ReactDom.render((

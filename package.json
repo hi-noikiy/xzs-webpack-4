@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "webpack": "NODE_ENV=product webpack --mode=development",
+    "webpack": "NODE_ENV=product webpack",
     "dev-server": "webpack-dev-server"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "less": "^3.0.2",
     "less-loader": "^4.1.0",
     "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.14",
     "webpack-dashboard": "^1.1.1",

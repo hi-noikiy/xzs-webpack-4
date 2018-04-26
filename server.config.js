@@ -1,7 +1,6 @@
 module.exports = {
 	port: 8888,
 	hot: true,
-	//热替换
 	proxy: {
 		'/api': {
 			target: 'http://localhost:3000',
@@ -10,7 +9,7 @@ module.exports = {
 			}
 		}
 	},
-	inline: false,              //是否开启iframe
+	inline: true,              //appear in the browser console
 	progress: false,            //是否显示加载不步骤
 	stats: {
 		colors: true,
