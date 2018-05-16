@@ -18,13 +18,13 @@ let mode = 'none',
 	devServer = void 0,
 	plugins = [
 		new ExtractTextPlugin({
-			filename: 'css/[name].css',
+			filename: 'css/[name].[hash].css',
 			allChunks: true
 		}),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new webpack.DefinePlugin({}),
 		new webpack.NoEmitOnErrorsPlugin(),
-		new webpack.HashedModuleIdsPlugin(),
+		new webpack.HashedModuleIdsPlugin(),                //每次没有变更的文件不会重新生成hash 节省资源
 		new webpack.optimize.ModuleConcatenationPlugin(),   //提升hoist 提高浏览器编译速度
 		new HtmlWebpackPlugin({
 			inject: true,
@@ -84,7 +84,6 @@ module.exports = {
 			'react-dom',
 			'react-redux',
 			'react-router',
-			'react-thunk',
 			'redux',
 			'redux-thunk'
 		]
@@ -92,8 +91,8 @@ module.exports = {
 	output: {
 		auxiliaryComment: 'Test Comment',       //
 		path: distPath,
-		filename: 'js/[name].[hash].common.js',
-		chunkFilename: 'js/[name].[hash].chunk.js',
+		filename: `js/[name].[${mode === 'production' ? 'chunkhash' : 'hash'}].js`,        //需要变更为 chunkHash
+		chunkFilename: `js/[id].[${mode === 'production' ? 'chunkhash' : 'hash'}].chunk.js`,
 		publicPath: '', // string
 		library: 'MJ_Library', //可以soucrMap 库名
 		// libraryTarget: 'umd', // universal module definition
@@ -118,13 +117,13 @@ module.exports = {
 					fallback: {
 						loader: 'style-loader',
 						options: {
-							// minimize: cssMinimize
+							minimize: cssMinimize
 						}
 					},
 					use: {
 						loader: 'css-loader',
 						options: {
-							// minimize: cssMinimize
+							minimize: cssMinimize
 						}
 					}
 				})
@@ -142,7 +141,7 @@ module.exports = {
 						{
 							loader: 'css-loader',
 							options: {
-								// minimize: cssMinimize,
+								minimize: cssMinimize,
 								modules: true,
 								importLoaders: 1,
 								localIdentName: '[name]__[local]___[hash:base64:5]'
@@ -150,7 +149,7 @@ module.exports = {
 						}, {
 							loader: 'less-loader',
 							options: {
-								// minimize: cssMinimize,
+								minimize: cssMinimize,
 								strictMath: true,
 								noIeCompat: true
 							}
