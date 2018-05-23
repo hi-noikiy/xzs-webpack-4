@@ -42,4 +42,3 @@ window.ReactDom = ReactDom;
 ReactDom.render((
 	<App/>
 ), document.getElementById('app'));
-console.log('123123112312--1231231')

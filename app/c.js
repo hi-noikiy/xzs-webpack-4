@@ -1,14 +1,5 @@
-require('lodash/date')
-console.log('ccc')
-
-
-function a(){
-
-}
-
-async function a(){
-	
-	
-	
-	await Promise.resolve('dddd')
-}
+let a = 1,
+	c = 2;
+export {a}
+export {c as d}
+export const e = [1,2]
